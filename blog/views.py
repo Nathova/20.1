@@ -6,7 +6,7 @@ from django.views.generic.list import ListView
 from pytils.translit import slugify
 
 from blog.models import Blog
-from config import settings
+from shop import settings
 
 
 class IndexList(ListView):

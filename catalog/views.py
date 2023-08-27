@@ -13,4 +13,4 @@ def index(request):
 
 def contacts(request):
     data = Contacts.objects.get(id=1)
-    return render(request, 'contacts.html', context={'data': data})
+    return render(request, 'contactinf_list.html', context={'data': data})
