@@ -130,7 +130,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # sending-email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_HOST = 'imap.gmail.com'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 
