@@ -134,7 +134,7 @@ EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 
-EMAIL_HOST_USER = 'dima.captan@yandex.ru'
+EMAIL_HOST_USER = 'nathovaekaterina@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_PASSWORD')
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
