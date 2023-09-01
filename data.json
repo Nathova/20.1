@@ -66,8 +66,8 @@
     "model": "catalog.contactinf",
     "pk": 1,
     "fields": {
-      "fullname": "Каптан Дмитрий Алексеевич",
-      "email": "dima.captan@yandex.ru",
+      "fullname": "Натхова Екатерина Евгеньевна",
+      "email": "nathovaekaterina@gmail.com",
       "phone": "899999999",
       "address": "Адресс не указан"
     }
