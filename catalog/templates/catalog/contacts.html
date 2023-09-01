@@ -1,0 +1,44 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+
+    <!-- Заголовок и форма обратной связи -->
+    <div class="container mt-5">
+        <h1>Свяжитесь с нами</h1>
+        <p>Если у вас есть вопросы или предложения, заполните форму ниже, чтобы связаться с нами.</p>
+
+        <!-- Контактные данные магазина -->
+        <div class="row">
+            <div class="col-md-6">
+                {% if contact_display %}
+                    <h5>Контактная информация:</h5>
+                    <p><strong>Телефон:</strong> {{ contact_display.phone }}</p>
+                    <p><strong>Email:</strong> {{ contact_display.email }}</p>
+                    <p><strong>Адрес:</strong> {{ contact_display.address }}</p>
+                    <p><strong>График работы:</strong> {{ contact_display.schedule }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Форма обратной связи -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Имя</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Сообщение</label>
+                        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

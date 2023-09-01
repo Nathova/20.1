@@ -1,80 +1,53 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{ title }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/album.css' %}" rel="stylesheet">
 </head>
+
 <body>
-{% include 'catalog/includes/inc_menu.html' %}
+{% include 'catalog/includes/inc_navbar.html' %}
+<main role="main">
 
-{% block content %}
-{% endblock %}
-
-<div class="row">
-    <footer class="text-center text-lg-start bg-white text-muted">
-        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-            <div>
-                <a href="" class="me-4 link-secondary">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="" class="me-4 link-secondary">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="" class="me-4 link-secondary">
-                    <i class="fab fa-google"></i>
-                </a>
-                <a href="" class="me-4 link-secondary">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="" class="me-4 link-secondary">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-                <a href="" class="me-4 link-secondary">
-                    <i class="fab fa-github"></i>
-                </a>
-            </div>
-        </section>
-
-        <div class="container text-center text-md-start mt-5">
-
-            <div class="row mt-3">
-
-                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-
-                    <h6 class="text-uppercase fw-bold mb-4">
-                        <i class="fas fa-gem me-3 text-secondary"></i>MRROBOT
-                    </h6>
-                    <p>
-                        Мы творим онлайн успех для вашего бизнеса: создаем сайты,
-                        дизайны логотипов и мобильные приложения.
-                    </p>
-                </div>
-
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-
-                    <h6 class="text-uppercase fw-bold mb-4">
-                        Магазин
-                    </h6>
-                    <p>
-                        <a href="{% url 'catalog:index' %}" class="text-reset">Главная</a>
-                    </p>
-                    <p>
-                        <a href="{% url 'catalog:contacts' %}" class="text-reset">Контакты</a>
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.025);">
-                © 2021 Copyright:
-                <a class="text-reset fw-bold" href="/">MRROBOT</a>
-            </div>
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">{{ title }}</h1>
         </div>
-    </footer>
-</div>
+    </section>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+
+</main>
+
+<footer class="text-muted">
+    <div class="container">
+        <p class="float-right">
+            <a href="#">Back to top</a>
+        </p>
+        <p><a href="..">Visit the homepage</a> </p>
+        <p><a href="{% url 'blog:index' %}">Наш блог</a> </p>
+    </div>
+</footer>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/holder.min.js' %}"></script>
 </body>
 </html>

@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "e-shop"
+version = "0.1.0"
+description = ""
+authors = ["Ekaterina_N <nathovaekaterina@gmail.com>"]
+readme = "README.md"
+packages = [{include = "e_shop"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^4.2.3"
+psycopg2-binary = "^2.9.6"
+pillow = "^10.0.0"
+ipython = "^8.14.0"
+pytils = "^0.4.1"
+python-decouple = "^3.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

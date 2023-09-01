@@ -1,23 +1,19 @@
 from django.db import models
-from django.utils.timezone import now
-from django.urls import reverse
 
-NULLABLE = {'null': True, 'blank': True}
+NULLABLE = {
+    'null': True,
+    'blank': True
+}
 
 
 class Blog(models.Model):
-    title = models.CharField(max_length=200, verbose_name='заголовок')
-    slug = models.CharField(max_length=200, verbose_name='URL')
-    body = models.TextField(verbose_name='содержание', **NULLABLE)
-    preview = models.ImageField(verbose_name='изображение (превью)', upload_to='blog/', **NULLABLE)
-    create_date = models.DateField(verbose_name='дата создания', default=now)
-    published = models.BooleanField(verbose_name='признак публикации', default=False)
-    view_count = models.IntegerField(verbose_name='колличество просмотров', default=0)
-    email_address = models.CharField(max_length=100, verbose_name='электронная почта', default='не указано')
+    title = models.CharField(max_length=150, verbose_name='заголовок')
+    slug = models.CharField(max_length=150, verbose_name='slug', **NULLABLE)
+    body = models.TextField(verbose_name='содержимое')
+    image = models.ImageField(upload_to='blog/', **NULLABLE, verbose_name='превью')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
+    is_published = models.BooleanField(default=True, verbose_name='признак публикации')
+    views_count = models.IntegerField(default=0, verbose_name='количество просмотров')
 
     def __str__(self):
-        return f'{self.title}, просмотры: {self.view_count}'
-
-    class Meta:
-        verbose_name = 'блоговая запись'
-        verbose_name_plural = 'блоговые записи'
+        return f'{self.pk} ({self.title})'

@@ -1,71 +1,65 @@
-from django.core.mail import send_mail
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView
-from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
-from pytils.translit import slugify
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy, reverse
 from blog.models import Blog
-from shop import settings
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from pytils.translit import slugify
+from django.core.mail import send_mail
+from decouple import config
 
 
-class IndexList(ListView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Blog
-    paginate_by = 6
+    fields = ('title', 'body', 'image', 'is_published')
+    success_url = reverse_lazy('blog:index')
 
-    def get_queryset(self):
-        qs = super().get_queryset()
-        qs = qs.filter(published=True)
-        return qs
+    def form_valid(self, form):
+        if form.is_valid():
+            new_blog = form.save(commit=False)
+            new_blog.slug = slugify(new_blog.title)
+            new_blog.save()
+
+        return super().form_valid(form)
 
 
-class BlogDetail(DetailView):
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
+    model = Blog
+    fields = ('title', 'body', 'image', 'is_published')
+
+    def get_success_url(self):
+        return reverse('blog:detail', args=[self.object.slug])
+
+
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
+    model = Blog
+    success_url = reverse_lazy('blog:index')
+
+
+class BlogListView(ListView):
+    model = Blog
+    extra_context = {
+        'title': 'Наш блог'
+    }
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        context_data['object_list'] = Blog.objects.order_by('-created_at').filter(is_published=True)
+        return context_data
+
+
+class BlogDetailView(DetailView):
     model = Blog
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
-        self.object.view_count += 1
-        self.object.save()
-        if self.object.view_count == 100:
-            obj_title = self.object.title
-            send_mail(
-                f'Congrats, {obj_title} owner, we have some news for you!',
-                f"Your article {obj_title} got first 100 views!",
-                settings.EMAIL_HOST_USER,
-                recipient_list=[self.object.email_address])
+        if self.object:
+            self.object.views_count += 1
+            self.object.save()
+
+            if self.object.views_count == 100:
+                subject = 'Поздравление с достижением 100 просмотров'
+                message = f'Статья "{self.object.title}" достигла 100 просмотров.'
+                from_email = config('EMAIL_HOST_USER')
+                recipient_list = ['denis88lyapin@gmail.com']
+                send_mail(subject=subject, message=message, from_email=from_email, recipient_list=recipient_list)
+
         return self.object
-
-
-class BlogCreate(CreateView):
-    model = Blog
-    fields = ('title', 'body', 'preview', 'published', 'email_address')
-
-    def get_success_url(self):
-        return reverse_lazy('blog:articles', args=[self.object.slug])
-
-    def form_valid(self, form):
-        if form.is_valid():
-            new_form = form.save()
-            new_form.slug = slugify(new_form.title) + str(new_form.pk)
-            new_form.save()
-        return super().form_valid(form)
-
-
-class BlogUpdate(UpdateView):
-    model = Blog
-    fields = ('title', 'body', 'preview', 'published', 'email_address')
-
-    def get_success_url(self):
-        return reverse_lazy('blog:articles', args=[self.object.slug])
-
-    def form_valid(self, form):
-        if form.is_valid():
-            new_form = form.save()
-            new_form.slug = slugify(new_form.title) + str(new_form.pk)
-            new_form.save()
-        return super().form_valid(form)
-
-
-class BlogDelete(DeleteView):
-    model = Blog
-    success_url = reverse_lazy('blog:index')
